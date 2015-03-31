@@ -2,7 +2,7 @@
 
 function ipHasChanged( $currentIp )
 {
-    $fileName = 'linode-dyndns.ip';
+    $fileName = dirname( __FILE__ ) . '/linode-dyndns.ip';
     if ( !file_exists( $fileName )) touch( $fileName );
     if ( is_writable( $fileName ))
     {
@@ -15,20 +15,22 @@ function ipHasChanged( $currentIp )
                 fclose( $fileStream );
                 return file_get_contents( $fileName );
             }
+            else echo "Cannot open file for writing\n";
         }
     }
+    else echo "Cannot write to IP address file\n";
     return false;
 }
 
 function readConfig()
 {
-    $configFileName = 'linode-dyndns.conf';
+    $configFileName = dirname( __FILE__ ) . '/linode-dyndns.conf';
     if ( !file_exists( $configFileName ))
     {
         echo "First configure this script by copying linode-dyndns.conf-dist to linode-dyndns.conf and changing the values\n";
         exit;
     }
-    $configLines = file( 'linode-dyndns.conf', FILE_IGNORE_NEW_LINES );
+    $configLines = file( dirname( __FILE__ ) . '/linode-dyndns.conf', FILE_IGNORE_NEW_LINES );
     $config = array();
     foreach ( $configLines as $line )
     {
@@ -47,15 +49,16 @@ function updateLinodeDns( $ip, $config )
     $resources = explode( ',', $config['RESOURCES'] );
     foreach ( $resources as $resourceId )
     {
-        file_get_contents( $apiCallStr . $updateActionSuffix . $resourceId );
+        $url = $apiCallStr . $updateActionSuffix . $resourceId;
+        file_get_contents( $url );
     }
     return file_get_contents( $apiCallStr . '&api_action=domain.resource.list' );
 }
 
+$config = readConfig();
 $ip = file_get_contents( 'http://phihag.de/ip/' );
 if ( $ip && ipHasChanged( $ip ))
 {
-    $config = readConfig();
     $status = updateLinodeDns( $ip, $config );
     if ( $config['NOTIFICATIONS'] )
     {
