@@ -1,3 +1,4 @@
+IP_CHECK_URL=http://phihag.de/ip/
 API_URL=https://api.linode.com
 API_KEY=your-secret-key
 DOMAIN_ID=123456

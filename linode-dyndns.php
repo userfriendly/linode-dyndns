@@ -56,7 +56,7 @@ function updateLinodeDns( $ip, $config )
 }
 
 $config = readConfig();
-$ip = file_get_contents( 'http://phihag.de/ip/' );
+$ip = file_get_contents( $config['IP_CHECK_URL'] );
 if ( $ip && ipHasChanged( $ip ))
 {
     $status = updateLinodeDns( $ip, $config );
