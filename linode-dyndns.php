@@ -57,6 +57,7 @@ function updateLinodeDns( $ip, $config )
 
 $config = readConfig();
 $ip = file_get_contents( $config['IP_CHECK_URL'] );
+if ( strlen( $ip ) < 7 || strlen( $ip ) > 15 ) exit; 
 if ( $ip && ipHasChanged( $ip ))
 {
     $status = updateLinodeDns( $ip, $config );
