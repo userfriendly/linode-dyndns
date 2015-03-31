@@ -1,0 +1,7 @@
+API_URL=https://api.linode.com
+API_KEY=your-secret-key
+DOMAIN_ID=123456
+RESOURCES=123,456,789
+NOTIFICATIONS=0
+NOTIFICATION_EMAIL_TO=someone@example.com
+NOTIFICATION_EMAIL_FROM=you@example.com
